@@ -59,3 +59,25 @@ with col3:
 
     st.subheader('Projected Eikona Users')
     st.line_chart(eikona_projected)
+    
+st.subheader('Financial Projections')   
+cost_mint = st.slider('Estimated Cost of User to Mint ($)...', 0, 5, 1)
+server_cost = st.slider('Estimated Server Costs (Per User in $)...', 0, 10, 1)
+price_mint = st.slider('Estimated Price for User to Mint ($)...', 0, 10, 1)
+conversion_rate = st.slider('Estimated Share of Users Who Mint (%)...', 0, 100, 1)
+conversion_rate = conversion_rate*0.01
+eikona_projected = eikona_projected.reset_index()
+l = []
+for i in eikona_projected.iterrows():
+    year = str(i[1]['Year'])
+    converts = round(i[1]['Projected Eikona Users']*conversion_rate)
+    cost = (server_cost*eikona_users)+(cost_mint*converts)
+    revenue = converts*price_mint
+    profit = revenue - cost
+    tup=(year,converts, cost, revenue, profit)
+    l.append(tup)
+eikona_finances = pd.DataFrame(l, columns=['Year','Converts','Costs', 'Revenue', 'Profit'])
+eikona_finances
+eikona_finances_graph = eikona_finances[['Year','Revenue','Profit']]
+eikona_finances_graph = eikona_finances_graph.set_index('Year')
+st.line_chart(eikona_finances_graph)
