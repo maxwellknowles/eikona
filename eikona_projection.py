@@ -68,7 +68,7 @@ with col2:
     st.subheader('Pokemon Go Users (in millions)')
     st.line_chart(pokemongo_users)
 
-st.subheader('Estimated Users in NFT Space')
+#st.subheader('Estimated Users in NFT Space')
 
 st.header('Eikona Financial Projections: Early and Terminal')
 st.subheader('Eikona early projections, starting with an estimated 1000 core users by end of 2022...')
