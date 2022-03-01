@@ -4,3 +4,4 @@ streamlit
 numpy
 datetime
 matplotlib
+streamlit_option_menu
