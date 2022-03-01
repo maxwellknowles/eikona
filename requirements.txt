@@ -3,4 +3,4 @@ pandas
 streamlit
 numpy
 datetime
-matplotlib.pyplot
+matplotlib
