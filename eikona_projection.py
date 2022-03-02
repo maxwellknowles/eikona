@@ -83,6 +83,7 @@ avg_b2bsales = 3
 #-------------------------
 #Main Menu Sidebar -- CONFIG
 #-------------------------
+st.set_page_config(layout = "wide")
 with st.sidebar:
 
     choose = option_menu("Eikona Projections", ["Other", "Business Model Projector"],
