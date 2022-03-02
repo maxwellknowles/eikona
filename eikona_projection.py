@@ -504,9 +504,10 @@ if choose == "Tokenomics":
         v_ = []
         days_simulated = int(d)
         for i in range(days_simulated):
-            total_coin = percent_coin_owned+people_involved*rate_of_generation*i
-            v = total_value*(percent_coin_owned/total_coin)
-            v_.append(v)
+            if(i < 250):
+              total_coin = percent_coin_owned+people_involved*rate_of_generation*i
+              v = total_value*(percent_coin_owned/total_coin)
+              v_.append(v)
 
         ax.plot(range(days_simulated),v_)
         plt.xlabel("Number of months until $EKO is a people owned currency")
