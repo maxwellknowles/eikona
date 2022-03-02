@@ -509,10 +509,10 @@ if choose == "Tokenomics":
             v_.append(v)
 
         ax.plot(range(days_simulated),v_)
-        ax.xlabel("Number of months until people owned currency")
-        ax.ylabel("Reserve value over time")
+        plt.xlabel("Number of months until people owned currency")
+        plt.ylabel("Reserve value over time")
 
-        
+
         fig.tight_layout()
         st.pyplot(fig)
 
