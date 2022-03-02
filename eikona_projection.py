@@ -509,10 +509,14 @@ if choose == "Tokenomics":
             v_.append(v)
 
         ax.plot(range(days_simulated),v_)
+        ax.xlabel("Number of months until people owned currency")
+        ax.ylabel("Reserve value over time")
+
+        
         fig.tight_layout()
         st.pyplot(fig)
 
-        st.write('What this shows is the amount of coin we own over time vs. The ammount of concurrent players holdings(x) plotted against the number of months at those settings it will take before The Reserves initial market supply loses value to 1$ (y) ----- x Percentage centralized vs. people owned currency --------- y number of months to get to people a people owned currency (Reserve hitting 1$)-----')
+        st.write('What this shows is the amount of coin we own over time vs. The ammount of concurrent players holdings(x) plotted against the number of months at those settings it will take before The Reserves initial market supply loses value to 1$')
     
     with col2:
         st.header('test')
