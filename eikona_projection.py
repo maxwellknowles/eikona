@@ -86,7 +86,7 @@ avg_b2bsales = 3
 st.set_page_config(layout = "wide")
 with st.sidebar:
 
-    choose = option_menu("Eikona Projections", ["Other", "Business Model Projector"],
+    choose = option_menu("Eikona Projections", ["Other", "Business Model Projector", "Tokenomics"],
                          icons=['clipboard-data-fill'],
                          menu_icon="building", default_index=0,
                          styles={
@@ -361,7 +361,7 @@ if choose == "Business Model Projector":
     ###Business Model Sidebar -- Lenz BMs
     #-------------------------
     if bm_sidebar == "Lenz Business Models":
-        st.title('Lenz Business Models')
+        st.title('Lenz Business Models **** BROKEN*****')
 
         col1, col2 = st.columns(2)
 
@@ -462,3 +462,57 @@ if choose == "Other":
         eikona_finances_graph = eikona_finances[['Year','Revenue', 'Costs', 'Profit']]
         eikona_finances_graph = eikona_finances_graph.set_index('Year')
         st.line_chart(eikona_finances_graph)
+
+
+#st.subheader('Tokenomics')
+if choose == "Tokenomics":
+    st.header('Tokenomics')
+
+
+    #initial values
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        #initial values
+        total_value = st.slider('Total Market Cap that starts in The Reserve: ', min_value = 100000, max_value = 5000000, value = 100000, step = 100000)
+        total_coin = st.slider('Total Market Cap in The Reserve Token Count (Initial Circulating Supply)', min_value = 1000000000, max_value = 1000000000000, value = 1000000000, step = 1000000000)
+        percent_coin_owned = total_coin
+        #parameters
+        people_involved = st.slider('Number of concurrent players a month: ', min_value = 10000, max_value = 100000000, value = 10000, step = 250)
+        avg_min_month = st.slider('Average number of minutes walked in AR/Month: ', min_value = 1, max_value = 600, value = 30, step = 1)
+        st.write('The Equivalent to: ' + str(float(avg_min_month/60)) + ' hours or ' + str(avg_min_month*60) + ' seconds')
+        rate_per_sec_AR = st.slider('$EKO Generated each second in AR ad-compatible space: ', min_value = 0.001, max_value = 1.0, value = 0.01)
+        x = (avg_min_month*60)*rate_per_sec_AR
+        rate_of_generation = x #rate of $EKO per month being generated
+
+        #days = 1000
+        #total_coin = total_coin+people_involved*rate_of_generation*days
+        #v1 is the value that our coin worth
+        v1 = total_value*(percent_coin_owned/total_coin)
+        #v2 is the value of a single coin
+        v2 = v1/percent_coin_owned
+
+        #d is the amount of days it takes for our coin to worth 1 dollar
+        d = (total_value/1000*percent_coin_owned-percent_coin_owned)/(rate_of_generation*people_involved)
+
+
+        fig = plt.figure()
+        ax = plt.gca()
+
+
+        v_ = []
+        days_simulated = int(d)
+        for i in range(days_simulated):
+            total_coin = percent_coin_owned+people_involved*rate_of_generation*i
+            v = total_value*(percent_coin_owned/total_coin)
+            v_.append(v)
+
+        ax.plot(range(days_simulated),v_)
+        fig.tight_layout()
+        st.pyplot(fig)
+
+        st.write('What this shows is the amount of coin we own over time vs. The ammount of concurrent players holdings(x) plotted against the number of months at those settings it will take before The Reserves initial market supply loses value to 1$')
+    
+    with col2:
+        st.header('test')
