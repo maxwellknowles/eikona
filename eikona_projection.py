@@ -511,7 +511,7 @@ if choose == "Tokenomics":
         ax.plot(range(days_simulated),v_)
         plt.xlabel("Number of months until $EKO is a people owned currency")
         plt.ylabel("The Reserve value over time")
-        plt.xlim(1,250)
+        plt.xlim(1,60)
 
 
         fig.tight_layout()
