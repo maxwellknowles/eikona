@@ -202,12 +202,13 @@ if choose == "Business Model Projector":
     #-------------------------
     if bm_sidebar == "Calculating TPM":
         st.title('Industry Growth & Trends')
+        st.write('Based on the total potential industry size in however many years worth since 2016, move the innovation and imitator coeffiecients for the Bassian Diffusion of Innovation Adoption curve and allign it as close as possible to the orange line being coinbase users since 2016, this most accurately predicts how far we are into total crypto industry adoption by 20xx, and so we can see how much of the total potential market we can/will need try to encompass')
 
         #Setting Up Sliders
         industry_size = st.slider('Select Industry Size by 2040 (IN BILLIONS)', min_value = 0.1, max_value = 5.5,value = 1.0, step = 0.1)
 
-        p_coefficient = st.slider('P Coefficient', min_value = 0.001, max_value = 0.05, value = p_coefficient, step = 0.005)
-        q_coefficient = st.slider('P Coefficient', min_value = 0.25, max_value = 0.55, value = q_coefficient, step = 0.025)
+        p_coefficient = st.slider('P Coefficient: Innovation', min_value = 0.001, max_value = 0.05, value = p_coefficient, step = 0.005)
+        q_coefficient = st.slider('Q Coefficient: Imitation', min_value = 0.25, max_value = 0.55, value = q_coefficient, step = 0.025)
         period = st.slider('Period of time to predict until:', min_value = 10, max_value = 100, value = 20, step = 1)
 
         industry_size = 1000000000 * industry_size
@@ -479,12 +480,15 @@ if choose == "Tokenomics":
         total_coin = st.slider('Total Market Cap in The Reserve Token Count (Initial Circulating Supply)', min_value = 1000000000, max_value = 1000000000000, value = 1000000000, step = 1000000000)
         percent_coin_owned = total_coin
         #parameters
-        people_involved = st.slider('Number of concurrent players a month: ', min_value = 10000, max_value = 100000000, value = 10000, step = 250)
+        initial_people_involved = st.number_input('Number of initial players: ', min_value = 1, max_value = 100000000, value = 10000, step = 250)
+        user_growth_rate = st.slider('Rate of User Growth per month: 0.01 is equal to 1percent of initial userbase growth ', min_value = 0.01, max_value = 10.0, value = 0.5)
         avg_min_month = st.slider('Average number of minutes walked in AR/Month: ', min_value = 1, max_value = 600, value = 30, step = 1)
         st.write('The Equivalent to: ' + str(float(avg_min_month/60)) + ' hours or ' + str(avg_min_month*60) + ' seconds')
-        rate_per_sec_AR = st.slider('$EKO Generated each second in AR ad-compatible space: ', min_value = 0.001, max_value = 1.0, value = 0.01)
+        rate_per_sec_AR = st.slider('$EKO Generated each second in AR ad-compatible space: ', min_value = 0.001, max_value = 5.0, value = 0.01)
         x = (avg_min_month*60)*rate_per_sec_AR
         rate_of_generation = x #rate of $EKO per month being generated
+
+        people_involved = initial_people_involved
 
         #days = 1000
         #total_coin = total_coin+people_involved*rate_of_generation*days
@@ -493,25 +497,45 @@ if choose == "Tokenomics":
         #v2 is the value of a single coin
         v2 = v1/percent_coin_owned
 
-        #d is the amount of days it takes for our coin to worth 1 dollar
-        d = (total_value/1000*percent_coin_owned-percent_coin_owned)/(rate_of_generation*people_involved)
+        #m is the amount of months it takes for The Reserve to be worth 1 dollar
+        m = (total_value/1000*percent_coin_owned-percent_coin_owned)/(rate_of_generation*people_involved*100)
 
 
         fig = plt.figure()
         ax = plt.gca()
+        uot_line = plt.gca()
+
 
 
         v_ = []
-        days_simulated = int(d)
+        uot = []
+        days_simulated = int(m)
         for i in range(days_simulated):
-             total_coin = percent_coin_owned+people_involved*rate_of_generation*i
-             v = total_value*(percent_coin_owned/total_coin)
-             v_.append(v)
+            total_coin = percent_coin_owned+(initial_people_involved + (initial_people_involved * user_growth_rate))*rate_of_generation*i
+            v = total_value*(percent_coin_owned/total_coin)
+            uot_ = (initial_people_involved+(initial_people_involved * user_growth_rate*i))
+            uot.append(uot_)
+            v_.append(v)
 
-        ax.plot(range(days_simulated),v_)
-        plt.xlabel("Number of months until $EKO is a people owned currency")
-        plt.ylabel("The Reserve value over time")
-        plt.xlim(1,60)
+
+        
+
+
+        ax.plot(range(days_simulated),v_, label = 'Coin to users travellig the quota in AR time over time')
+        uot_line.plot(range(days_simulated), uot, label = 'Number of Impressionable users over time')
+        
+        plt.plot(60, uot[60], marker="x", label = 'The number of players at 5 years in: ' + str(uot[60]), markeredgecolor="red", markerfacecolor="green")
+        plt.plot(60, v_[60], marker="x", label = 'The value of the coin at 5 years in: ' + str(v_[60]), markeredgecolor="blue", markerfacecolor="blue")
+        plt.xlabel("Number of months until people owned currency")
+        plt.ylabel("Reserve value over time")
+        plt.legend()
+        plt.xlim(4,100)
+        #plt.ylim(10000, 10000000)
+        #plt.ylim = (initial_people_involved, 1000000)
+        #start, end = ax.get_ylim()
+        #plt.yticks(np.arange(start, end, 1000000000))
+
+
 
 
         fig.tight_layout()
