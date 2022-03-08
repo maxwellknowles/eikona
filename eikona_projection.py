@@ -477,7 +477,7 @@ if choose == "Tokenomics":
     with col1:
         #initial values
         total_value = st.slider('Total Market Cap that starts in The Reserve: ', min_value = 100000, max_value = 5000000, value = 100000, step = 100000)
-        total_coin = st.slider('Total Market Cap in The Reserve Token Count (Initial Circulating Supply)', min_value = 1000000000, max_value = 1000000000000, value = 1000000000, step = 1000000000)
+        total_coin = st.slider('Total Market Cap in The Reserve Token Count (Initial Circulating Supply)', min_value = 100000000, max_value = 1000000000000, value = 1000000000, step = 10000000)
         percent_coin_owned = total_coin
         #parameters
         initial_people_involved = st.number_input('Number of initial players: ', min_value = 1, max_value = 100000000, value = 10000, step = 250)
